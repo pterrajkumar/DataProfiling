@@ -1,0 +1,101 @@
+<div class="panel panel-primary">
+  <!-- <div class="panel-heading">
+    profile works!
+  </div> -->
+  <div class="panel-body">
+      <form class="form-horizontal" novalidate 
+      (ngSubmit)="save()" 
+      [formGroup]="profileForm">
+          <fieldset>
+
+              <div class="col-md-12" >
+                <div class="row">
+                  <div class="form-group col-md-6" >
+                      <div class="col-md-6">
+                          <p-radioButton id="rdprofile1" formControlName="rdprofile" label="New Profile New Dataset"  value=1 [(ngModel)]="selectedValue" (onClick)="onRdProfileClick(1)"></p-radioButton>
+                      </div>
+                  </div>
+                  <div class="form-group col-md-6" >
+                      <div class="col-md-6">
+                          <p-radioButton id="rdprofile2" formControlName="rdprofile" label="Existing Profile New Dataset" value=2 [(ngModel)]="selectedValue" (onClick)="onRdProfileClick(2)"></p-radioButton>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div *ngIf="newprofile" class="row">
+                  <div class="form-group col-md-6">
+                      <label class="control-label" for="businessnameId">Business Name</label>
+                        <div class="col-md-6">
+                            <span class="ui-float-label">
+                                <input id="float-input" pTooltip="Enter your Business Name" formControlName="txtbusinessname" [(ngModel)]="txtBusinessName" type="text" size="30" pInputText> 
+                                <label for="float-input">Business Name</label>
+                            </span>
+                        </div>
+                  </div>
+                </div>
+                <div *ngIf="existingprofile" class="row">
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="businessnameId">Business Name</label>
+                          <div class="col-md-6">
+                            <!-- <p-dropdown [options]="existingBusinessName" formControlName="fnExistingBusinessName" [(ngModel)]="selectedBusinessName" width="30" placeholder="Select a Business Name"></p-dropdown> -->
+                              <select class="form-control" id="businessnameId" pTooltip="Select your Business Name" formControlName="ddbusinessname"[(ngModel)]="selectedBusinessName" (change)="onBusinessNameSelect($event.target.value)">
+                                <option value="0" disabled selected hidden>Select a BusinessName</option>
+                                <option *ngFor="let item of profileContext.list" [value]= "item.businessObjectName">{{item.businessObjectName}}</option>
+                              </select>
+                          </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <p-checkbox id="chkCopyMetadata" formControlName="chkCopyMetadata" [(ngModel)]="chkCopyMetaValue" binary="false"  (onChange)="onChkMetaClick();"></p-checkbox>
+                        <label class="control-label" for="chkCopyMetadata">Copy MetaData</label>
+                        <div class="col-md-6">
+                            <div *ngIf="copyMetaData" class="row">
+                                <button type="button" (click)="copyMetaDataClick()" pButton icon="fa-check" label="Copy MetaData"></button>
+                            </div>
+                            <p-dialog header="Confirmation" icon="fa fa-question-circle" [(visible)]="displayDialog" modal="modal" width="300" [responsive]="true">
+                                    <p><i class="fa fa-question-circle" aria-hidden="true"></i> Are you sure that you want to copy the MetaData?.</p>
+                                        <p-footer>
+                                            <button type="button" pButton icon="fa-check" (click)="dialogOK();displayDialog=false; " label="Yes"></button>
+                                            <button type="button" pButton icon="fa-close" (click)="dialogCancel();displayDialog=false" label="No"></button>
+                                        </p-footer>
+                                </p-dialog>
+                        </div>
+                    </div>
+                </div>
+                
+              </div>
+
+              <div class="col-md-12">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="profilenumberId">Profile Number</label>
+                          <div class="col-md-6">
+                              <select class="form-control" id="profilenumberId" pTooltip="Select your Profile Number" [(ngModel)]= "selectedProfileNum" formControlName="ddprofilenumber">
+                                <option *ngFor="let item of profileNumContext" [value]= "item.profileNum">{{item.profileNum}}</option>
+                              </select>
+                          </div>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-12" >
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      <label class="control-label" for="">Upload your file in .txt and .csv format</label>
+                      <div class="col-md-12">
+                        <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="myUploader($event)"></p-fileUpload>
+                      </div>
+                    </div>                                
+                  </div>
+                  <div class="row">
+                      <div class="form-group col-md-12">
+                          <div class="col-md-12">
+                            <p-growl [value]="msgs"></p-growl>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </fieldset>
+      </form>
+  </div>
+</div>

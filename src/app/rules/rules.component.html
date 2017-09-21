@@ -1,0 +1,134 @@
+<div class="panel panel-primary">
+  <!-- <div class="panel-heading">
+    profile works!
+  </div> -->
+  <div class="panel-body">
+    <form class="form-horizontal" [formGroup]="ruleForm">
+      <fieldset>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <div class="col-md-6">
+                <label class="control-label" for="">Rule Category</label>
+                <select class="form-control" id="ruleCategoryId" item-width="100px" pTooltip="Select Rule Category" formControlName="ddRuleCategory">
+                  <option value="0" disabled selected hidden>Select a RuleCategory</option>
+                  <option *ngFor="let item of ruleCategory" [value]= "item.attributeKey">{{item.attributeValues}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="col-md-6">
+                <label class="control-label" for="">Rule Name</label>
+                <input type="text" pRuleNameText formControlName="txtRuleName"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <div class="col-md-6">
+                  <label class="control-label" for="">Rule Description</label>   
+                  <input type="text" pDescription formControlName="txtDescription"/>               
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <div class="col-md-6">
+                  <label class="control-label" for="">Error Message</label>
+                  <input type="text" pErrorMessage formControlName="txtErrorMessage"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <div class="col-md-6">
+                <label class="control-label" for="">Rule Dimension</label>&nbsp;
+                <!-- <p-dropdown [options]="ruleDimension">
+                <option *ngFor="let item of ruleDimension" value="item.attributeKey" disabled selected>{{item.attributeValues}}</option>
+              </p-dropdown>  -->
+                <select class="form-control" id="ruleDimensionId" item-width="100px" pTooltip="Select your Business Name" formControlName="ddRuleDimension">
+                  <option value="0" disabled selected hidden>Select a BusinessName</option>
+                  <option *ngFor="let item of ruleDimension" [value]= "item.attributeKey">{{item.attributeValues}}</option>
+              </select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="col-md-6">
+                <label class="control-label" for="">Rule Type</label>&nbsp;
+                <select class="form-control" id="ruleTypeId" pTooltip="Select a RuleType" formControlName="ddRuleType">
+                  <option value="0" disabled selected hidden>Select a Rule Type</option>
+                  <option *ngFor="let item of ruleType" [value]= "item.attributeKey">{{item.attributeValues}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <div class="col-md-6">
+                <label class="control-label" for="" style="vertical-align: top">Function Type</label>&nbsp;
+                <!-- <p-listbox [options]="functionType" [(ngModel)]="selectedCity" (onChange)="onBusinessNameSelect($event.value)">
+                </p-listbox>  -->
+                <select class="form-control" id="functionTypeId" pTooltip="Select a FunctionType" (change)="callAllAttributesService($event.target.value)" formControlName="ddFunctionType">
+                  <option value="0" disabled selected hidden>Select a Function Type</option>
+                  <option *ngFor="let item of functionType" [value]= "item.keyFuncType">{{item.functtionName}}</option>
+                </select>
+              </div>
+              </div>
+              <div class="form-group col-md-6">
+                <div class="col-md-6">
+                <label class="control-label" for="" style="vertical-align: top">Attributes</label>&nbsp;
+                <select class="form-control" id="functionId" pTooltip="Select a Attribute" formControlName="ddAttribute">
+                  <option value="0" disabled selected hidden>Select a Function Type</option>
+                  <option *ngFor="let item of functionAttribute" [value]= "item.KeyFunction">{{item.functtionName}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="control-label" for="" style="vertical-align: top">Filter</label>&nbsp;
+              <textarea pFilterTextarea [rows]="5" [cols]="30" formControlName="txtAreaFilter"></textarea>
+              </div>
+              <div class="form-group col-md-6">
+              <label class="control-label" for="" style="vertical-align: top">Rule</label>&nbsp;
+              <textarea pRuleTextarea [rows]="5" [cols]="30" formControlName="txtAreaRule"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <button pButton type="button" label="Validate"></button>
+              <button pButton type="button" (click)="postRuleData()" label="Save"></button>              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <p-dataList [value]="cars">
+                <ng-template let-car pTemplate="item">
+                  Car content
+                </ng-template>
+              </p-dataList>
+
+              <!-- <p-dataTable [value]="rowData" selectionMode="single" [(selection)]="selectedContact" (onRowSelect)="onRowSelect($event)" [lazy]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords" (onLazyLoad)="loadContactsLazy($event)" [responsive]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                <header>Contact Details</header>
+                <p-column field="ruleId" header="ID" [sortable]="true"></p-column>
+                <p-column field="businessname" header="FirstName" [sortable]="true"></p-column>               
+                <footer><div class="ui-helper-clearfix" style="width:100%"></div></footer>
+            </p-dataTable> -->
+
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="panel panel-primary">
+  <div class="panel-body">
+    <form class="form-horizontal" novalidate (ngSubmit)="save()" [formGroup]="datatypeMetadataForm">
+      <fieldset>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <div class="card">
+                <div class="card-header">Src/Tgt Datatype Metadata(optianal)</div>
+                <div class="card-block">
+                  <div class="card">
+                    <div class="card-header">Import Datatype Compatiblity Metadata(optianal)</div>
+                    <div class="card-block">
+                      <label class="control-label" for="">Metadata File</label>
+                      <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="myUploader($event)"></p-fileUpload>
+                    </div>
+                  </div>
+                  <p-listbox [options]="metadataValue"></p-listbox>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+<button (click)="getSelectedColumns()">Click me!!</button>

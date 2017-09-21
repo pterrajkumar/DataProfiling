@@ -1,0 +1,36 @@
+<div>
+    <header>
+      <nav>
+        <ul class="nav nav-pills">
+          <li><a [routerLink]="['./datatypemetadata']" (click)="onTabRouterClick('datatypemetadata')" routerLinkActive #rlaTab1="routerLinkActive" [ngClass]="rlaTab1.isActive ? 'nav-link active' : 'nav-link'">Metadata</a></li>
+          <li><a [routerLink]="['./rules']" (click)="onTabRouterClick('rules')" routerLinkActive #rlaTab2="routerLinkActive" [ngClass]="rlaTab2.isActive ? 'nav-link active' : 'nav-link'">User Defined Rules</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+          <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded">
+              <ul class="nav nav-pills flex-column">
+                  <li class="nav-item">
+                      <div class="card">
+                          <form class="form-horizontal" [formGroup]="entityTreeForm">
+                            <fieldset>
+                            <div class="card-header">Entities</div>
+                            <div class="card-block form-group">
+                              <p-listbox [options]="entities"  [style]="{'width':'150px'}" formControlName="entity" filter=true (onChange)=onSelected($event)>
+                              </p-listbox>
+                            </div>
+                            </fieldset>
+                          </form>
+                      </div>
+                  </li>
+              </ul>
+          </nav>
+          <main>
+            <section>
+              <router-outlet></router-outlet>
+            </section>
+          </main>
+      </div>
+    </div>
+  </div>
