@@ -1,0 +1,15 @@
+/* ::ng-deep div.ui-picklist-source-controls.ui-picklist-buttons::ng-deep {
+    display: none !important;
+}
+  
+::ng-deep .ui-picklist-target-controls {
+    display: none !important;
+}
+  
+::ng-deep .ui-picklist-listwrapper {
+    width: 35% !important;
+} */
+
+.ui-listbox{
+    line-height: 1em;
+}

@@ -36,10 +36,10 @@ export class UniqueIdentifierFieldComponent implements OnInit {
       //console.log(this.uniqueIdentifierFieldForm.value);
     }
     getAllFields(){
-      this.fieldService.getAllFields("profile","1")
+      /* this.fieldService.getAllFields("profile","1")
       .subscribe(
         data => this.sourceFields = data
-      );
+      ); */
     }
 
 

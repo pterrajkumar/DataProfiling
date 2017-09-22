@@ -1,10 +1,45 @@
-<div class="panel panel-primary">
-  <div class="panel-body">
+ 
     <form class="form-horizontal" novalidate (ngSubmit)="save()" [formGroup]="datatypeMetadataForm">
-      <fieldset>
-        <div class="col-md-12">
+      <fieldset>  
+        <div class="row">
+        <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Fields To Profile</div>
+                <div class="card-block row">
+                  <div class="col-md-5" style="max-height: 300px;overflow-y:auto">
+                  <p-listbox [options]="lbSF" [(ngModel)]="selectedSourceFields" multiple="multiple" filter="filter" [style]="{'width':'100%'}" formControlName="lbSourceFields"></p-listbox>
+                  </div>  
+                  <div class="col-md-1">
+                      <button type="button" pButton icon="fa fa-chevron-right" (click)="onBtnToRight();"></button>
+                      <button type="button" pButton icon="fa fa-chevron-left" (click)="onBtnToLeft();"></button>
+                  </div>
+                  <div class="col-md-6" style="max-height: 300px;overflow-y:auto">                      
+                      <p-listbox [options]="lbTF" [(ngModel)]="selectedTargetFields" multiple="multiple" filter="filter" [style]="{'width':'100%'}" formControlName="lbTargetFields"></p-listbox>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">Fields To Profile 1</div>
+                  <div class="card-block row">
+                    <div class="col-md-5" style="max-height: 300px;overflow-y:auto">
+                    <p-listbox [options]="lbSF" [(ngModel)]="selectedSourceFields" multiple="multiple" filter="filter" [style]="{'width':'100%'}" formControlName="lbSourceFields"></p-listbox>
+                    </div>  
+                    <div class="col-md-1">
+                        <button type="button" pButton icon="fa fa-chevron-right" (click)="onBtnLeft();"></button>
+                        <button type="button" pButton icon="fa fa-chevron-left" ></button>
+                    </div>
+                    <div class="col-md-6" style="max-height: 300px;overflow-y:auto">
+                        
+                        <p-listbox [options]="lbTF" [(ngModel)]="selectedTargetFields" multiple="multiple" filter="filter" [style]="{'width':'100%'}" formControlName="lbTargetFields"></p-listbox>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+            </div>
           <div class="row">
-            <div class="form-group col-md-6">
+            <div class="col-md-6">
               <div class="card">
                 <div class="card-header">Src/Tgt Datatype Metadata(optianal)</div>
                 <div class="card-block">
@@ -20,11 +55,24 @@
               </div>
 
             </div>
-          </div>
-        </div>
+            <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">Src/Tgt Datatype Metadata(optianal)</div>
+                  <div class="card-block">
+                    <div class="card">
+                      <div class="card-header">Import Datatype Compatiblity Metadata(optianal)</div>
+                      <div class="card-block">
+                        <label class="control-label" for="">Metadata File</label>
+                        <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="myUploader($event)"></p-fileUpload>
+                      </div>
+                    </div>
+                    <p-listbox [options]="metadataValue"></p-listbox>
+                  </div>
+                </div>
+  
+              </div>
+          </div> 
       </fieldset>
-    </form>
-  </div>
-</div>
+    </form> 
 
 <button (click)="getSelectedColumns()">Click me!!</button>

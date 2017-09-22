@@ -43,7 +43,7 @@ export class EntitiesComponent implements OnInit {
         details.list.forEach(item => {
           this.entities.push({
             label: item.businessObjectName+"_"+(item.profileNum - 1), 
-            value: item.businessObjectName
+            value: item.businessObjectName+"~"+(item.profileNum - 1)
           });
         });
       },

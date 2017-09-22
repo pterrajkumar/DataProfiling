@@ -38,11 +38,11 @@ export class FieldToProfileComponent implements OnInit {
     //console.log(this.fieldToProfileForm.value);
   }
   getAllFields() {
-    this.fieldService.getAllFields("PROFILE", "1")
+    /* this.fieldService.getAllFields("PROFILE", "1")
       .subscribe(
       data => {this.sourceFields = data; this.sourceFields = this.sourceFields.filter(item => this.targetFields.indexOf(item) < 0) },
       (error: any) => this.errorMessage = <any>error
-      );
+      ); */
     //console.log(this.sourceFields);
   }
   getFieldsToProfile() {

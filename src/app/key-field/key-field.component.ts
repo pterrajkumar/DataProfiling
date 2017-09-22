@@ -36,10 +36,10 @@ export class KeyFieldComponent implements OnInit {
     //console.log(this.keyFieldForm.value);
   }
   getAllFields(){
-    this.fieldService.getAllFields("PROFILE","1")
+    /* this.fieldService.getAllFields("PROFILE","1")
     .subscribe(
       data => this.sourceFields = data
-    );
+    ); */
   }
   getKeyFields(){
     this.fieldService.getKeyFields("PROFILE","1")
