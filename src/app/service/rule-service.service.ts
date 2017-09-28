@@ -21,7 +21,7 @@ export class RuleServiceService {
   }
 
   getAllFunctionTypeDetails(): Observable<any[]> {
-    return this.http.get(`${this.baseUrl}/FunctionTypes`)
+    return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllFunctionsTypeDetails`)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -32,18 +32,43 @@ export class RuleServiceService {
       .catch(this.handleError);
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    console.log(body.context.list);
-    return body.context.list || {};
-  }
-
-  postRuleData(ruleContext: RuleContext): Observable<RuleContext> {
-    return this.http.post(`${this.baseUrl}/FunctionTypes/PostRuleData`, ruleContext)
-        .map(this.extractData)
+  callValidationService(masterContext: RuleContext): Observable<RuleContext> {
+    return this.http.post(`${this.baseUrl}/FunctionTypes/ValidateRuleOrFilter`, masterContext)
+        .map(this.extractPostData)
         .catch(this.handleError);
   }
-  
+  private extractData(res: Response) {
+    let body = res.json();
+    return body.context.list || {};
+  }
+  private extractPostData(res: Response) {
+    let body = res.json();
+    return body.context || {};
+  }
+  private extractDataDO(res: Response) {
+    let body = res.json();
+    return body.context.rulesTrendListDO || {};
+  }
+  postRuleData(ruleContext: RuleContext): Observable<RuleContext> {
+    return this.http.post(`${this.baseUrl}/FunctionTypes/PostRuleData`, ruleContext)
+        .map(this.extractPostData)
+        .catch(this.handleError);
+  }
+  updateRuleData(id:number, ruleContext: RuleContext): Observable<RuleContext> {
+    return this.http.put(`${this.baseUrl}/FunctionTypes/UpdateRuleData/${id}`, ruleContext)
+        .map(this.extractPostData)
+        .catch(this.handleError);
+  }
+  getAllRules(businessName:string, profileNo: string): Observable<any[]> {
+    return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllRules/${businessName}/${profileNo}`)    
+    .map(this.extractDataDO)
+    .catch(this.handleError);
+  }
+  getAllSyntaxBasedOnFunctionDetails(id:number): Observable<any[]> {
+    return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllSyntaxDetailsBasedOnFunction/${id}`)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
   handleError(error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
