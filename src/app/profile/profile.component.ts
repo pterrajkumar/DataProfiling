@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
       ddbusinessname: ['0',[]],
       ddprofilenumber: [1,[]],
       txtbusinessname:"",
-      chkCopyMetadata: "1"   ,
+      chkCopyMetadata: "1",
       fnExistingBusinessName:""   
     });
 
@@ -162,8 +162,11 @@ export class ProfileComponent implements OnInit {
     let profileDetails: string = this.retrieveFormDetailsForUpload();
     this.profileService.uploadFileRequest(files, profileDetails)
         .subscribe(
-          () => this.onComplete(),
-          (error: any) => this.errorMessage = <any>error
+          details => {
+            this.profileContext = details;
+          },
+          (error: any) => this.errorMessage = <any>error,
+          () => this.onComplete()          
         );
   }
 

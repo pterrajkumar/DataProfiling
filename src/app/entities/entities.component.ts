@@ -61,7 +61,10 @@ export class EntitiesComponent implements OnInit {
           routername = sessionStorage.getItem('tabRouter');
           this.router.navigate(['/entities/datatypemetadata', event.value]);
         break;
-
+        case "standardrule":
+          routername = sessionStorage.getItem('tabRouter');
+          this.router.navigate(['/entities/standardrule', event.value]);
+        break;
         case "rules":
           routername = sessionStorage.getItem('tabRouter');
           this.router.navigate(['/entities/rules', event.value]);

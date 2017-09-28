@@ -22,18 +22,39 @@ export class FieldServiceService {
       .catch(this.handleError);
   }
 
+  uploadFileRequest(uploadedFile: any, profileName: string): Observable<FieldsContext> {
+    let input = new FormData();
+    input.append("file", uploadedFile, profileName);    
+    return this.http.post(`${this.baseUrl}/Field/UploadMetaDataTypeCsvFile`, input)
+        .map(this.extractContext)
+        .catch(this.handleError);
+  }
+
+  saveMetadataDetails(metaDataTypesRequest: FieldsContext): Observable<FieldsContext>{
+    return this.http.post(`${this.baseUrl}/Field` + '/SaveMetadataDetails', metaDataTypesRequest)
+    .map(this.extractContext)
+    .catch(this.handleError);
+  } 
+
+  /* getCarsSmall() {
+    return this.http.get('/showcase/resources/data/cars-small.json')
+                .toPromise()
+                .then(res => <FieldsContext> res.json().data)
+                .then(data => { return data; });
+  }  */
 
 
 
 
-  getFieldsToProfile(BusinessObjectName: string, ProfileNum: string): Observable<any[]> {
-    return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`, 
+  getKeyFields(BusinessObjectName: string, ProfileNum: string): Observable<any[]> {
+    return this.http.get(`${this.baseUrl}/Field/GetKeyFields`, 
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractData)
       .catch(this.handleError);
   }
-  getKeyFields(BusinessObjectName: string, ProfileNum: string): Observable<any[]> {
-    return this.http.get(`${this.baseUrl}/Field/GetKeyFields`, 
+
+  getFieldsToProfile(BusinessObjectName: string, ProfileNum: string): Observable<any[]> {
+    return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`, 
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractData)
       .catch(this.handleError);
@@ -60,16 +81,11 @@ export class FieldServiceService {
     input.append("BusinessObjectName",BusinessObjectName);
     input.append("ProfileNum",ProfileNum);
     return this.http.post(`${this.baseUrl}/Field/SetFieldsToProfile`, input)
-        .map(this.extractDataDetails)
+        .map(this.extractContext)
         //.do(data => console.log('uploadedFiles: ' + JSON.stringify(data)))
         .catch(this.handleError);
   }
 
-  private extractDataDetails(res: Response) {
-    let body = res.json(); 
-    console.log(body);   
-    return body.context || { };
-  }
   handleError(error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;

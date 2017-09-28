@@ -3,7 +3,8 @@
       <nav>
         <ul class="nav nav-pills">
           <li><a [routerLink]="['./datatypemetadata']" (click)="onTabRouterClick('datatypemetadata')" routerLinkActive #rlaTab1="routerLinkActive" [ngClass]="rlaTab1.isActive ? 'nav-link active' : 'nav-link'">Metadata</a></li>
-          <li><a [routerLink]="['./rules']" (click)="onTabRouterClick('rules')" routerLinkActive #rlaTab2="routerLinkActive" [ngClass]="rlaTab2.isActive ? 'nav-link active' : 'nav-link'">User Defined Rules</a></li>
+          <li><a [routerLink]="['./standardrule']" (click)="onTabRouterClick('standardrule')" routerLinkActive #rlaTab2="routerLinkActive" [ngClass]="rlaTab2.isActive ? 'nav-link active' : 'nav-link'">Standard Rules</a></li>
+          <li><a [routerLink]="['./rules']" (click)="onTabRouterClick('rules')" routerLinkActive #rlaTab3="routerLinkActive" [ngClass]="rlaTab3.isActive ? 'nav-link active' : 'nav-link'">User Defined Rules</a></li>
         </ul>
       </nav>
     </header>

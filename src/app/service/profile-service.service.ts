@@ -33,7 +33,7 @@ export class ProfileServiceService {
     }
   }
 
-  uploadFileRequest(uploadedFile: any, profileName: string): Observable<void> {
+  uploadFileRequest(uploadedFile: any, profileName: string): Observable<ProfileContext> {
     let input = new FormData();
     input.append("file", uploadedFile, profileName);    
     return this.http.post(`${this.baseUrl}/ImportFiles/UploadFile`, input)
