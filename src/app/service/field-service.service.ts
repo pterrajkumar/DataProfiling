@@ -8,12 +8,15 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { FieldsContext } from '../models/fields-context';
+import { Configuration } from '../app.constants';
 
 @Injectable()
 export class FieldServiceService {
 
-  private baseUrl: string = 'http://localhost:34351/api';
-  constructor(private http: Http) { }
+  private baseUrl: string;
+  constructor(private http: Http, private _configuration: Configuration) { 
+    this.baseUrl = _configuration.ServerWithApiUrl;
+  }
 
   getAllFields(BusinessObjectName: string, ProfileNum: string): Observable<FieldsContext> {
     return this.http.get(`${this.baseUrl}/Field/GetAllFields`, 

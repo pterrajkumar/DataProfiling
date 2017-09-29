@@ -8,11 +8,14 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { StandardRulesContext } from '../models/standard-rules-context';
+import { Configuration } from '../app.constants';
 
 @Injectable()
 export class StandardRuleService {
-  private baseUrl: string = 'http://localhost:34351/api';
-  constructor(private http: Http) { }
+  private baseUrl: string;
+  constructor(private http: Http, private _configuration: Configuration) {
+      this.baseUrl = _configuration.ServerWithApiUrl;
+   }
 
   getAllStandardRules(BusinessObjectName: string, ProfileNum: string): Observable<StandardRulesContext> {
     return this.http.get(`${this.baseUrl}/StandardRules/GetAllStandardRules`, 

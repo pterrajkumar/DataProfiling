@@ -9,12 +9,15 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 
 import { FieldsToProfileContext } from "./../models/fields-to-profile-context";
+import { Configuration } from '../app.constants';
 
 @Injectable()
 export class FieldToProfileServiceService {
 
-  private baseUrl: string = 'http://localhost:34351/api';
-  constructor(private http: Http) { }
+  private baseUrl: string;
+  constructor(private http: Http, private _configuration: Configuration) { 
+    this.baseUrl = _configuration.ServerWithApiUrl;
+  }
 
   getFieldsToProfile(BusinessObjectName: string, ProfileNum: string): Observable<FieldsToProfileContext> {
     return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`, 

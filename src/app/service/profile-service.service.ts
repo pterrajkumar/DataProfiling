@@ -8,14 +8,16 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { ProfileContext } from "../models/profile-context";
+import { Configuration } from '../app.constants';
 
 @Injectable()
 
 export class ProfileServiceService {
 
-  private baseUrl: string = 'http://localhost:34351/api';
-
-  constructor(private http: Http) { }
+  private baseUrl: string;
+  constructor(private http: Http, private _configuration: Configuration) { 
+    this.baseUrl = _configuration.ServerWithApiUrl;
+  }
 
   /* REGION SERVICE METHODS */
   /* Not used */

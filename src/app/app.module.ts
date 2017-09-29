@@ -20,6 +20,7 @@ import { FieldServiceService } from "./service/field-service.service";
 import { RuleServiceService } from "./service/rule-service.service";
 import { FieldToProfileServiceService } from "./service/field-to-profile-service.service";
 import { EntitiesModule } from "./entities/entities.module";
+import { Configuration } from './app.constants';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { EntitiesModule } from "./entities/entities.module";
   ],
   providers: [
     { provide: ToastOptions, useClass: CustomOption },
-    ProfileServiceService,RuleServiceService,FieldServiceService,FieldToProfileServiceService
+    ProfileServiceService,RuleServiceService,FieldServiceService,FieldToProfileServiceService, Configuration
   ],
   bootstrap: [ AppComponent ]
 })

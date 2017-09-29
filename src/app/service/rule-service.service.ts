@@ -8,11 +8,14 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import {RuleContext} from "../models/rule-context"
+import { Configuration } from '../app.constants';
 
 @Injectable()
 export class RuleServiceService {
-  private baseUrl: string = 'http://localhost:34351/api';
-  constructor(private http: Http) { }
+  private baseUrl: string;
+  constructor(private http: Http, private _configuration: Configuration) { 
+    this.baseUrl = _configuration.ServerWithApiUrl;
+  }
 
   getAllAttributesDetails(): Observable<any[]> {
     return this.http.get(`${this.baseUrl}/Attributes`)
