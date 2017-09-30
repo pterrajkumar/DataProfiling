@@ -1,3 +1,3 @@
 export interface IfieldContext {
-    columnName : string
+    columnName: string;
 }

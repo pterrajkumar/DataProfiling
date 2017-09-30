@@ -7,13 +7,13 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import {RuleContext} from "../models/rule-context"
+import {RuleContext} from '../models/rule-context';
 import { Configuration } from '../app.constants';
 
 @Injectable()
 export class RuleServiceService {
   private baseUrl: string;
-  constructor(private http: Http, private _configuration: Configuration) { 
+  constructor(private http: Http, private _configuration: Configuration) {
     this.baseUrl = _configuration.ServerWithApiUrl;
   }
 
@@ -29,7 +29,7 @@ export class RuleServiceService {
       .catch(this.handleError);
   }
 
-  getAllFuncBasedOnTypeDetails(id:number): Observable<any[]> {
+  getAllFuncBasedOnTypeDetails(id: number): Observable<any[]> {
     return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllFunctionsDetailsBasedOnType/${id}`)
       .map(this.extractData)
       .catch(this.handleError);
@@ -41,15 +41,15 @@ export class RuleServiceService {
         .catch(this.handleError);
   }
   private extractData(res: Response) {
-    let body = res.json();
+    const body = res.json();
     return body.context.list || {};
   }
   private extractPostData(res: Response) {
-    let body = res.json();
+    const body = res.json();
     return body.context || {};
   }
   private extractDataDO(res: Response) {
-    let body = res.json();
+    const body = res.json();
     return body.context.rulesTrendListDO || {};
   }
   postRuleData(ruleContext: RuleContext): Observable<RuleContext> {
@@ -57,17 +57,17 @@ export class RuleServiceService {
         .map(this.extractPostData)
         .catch(this.handleError);
   }
-  updateRuleData(id:number, ruleContext: RuleContext): Observable<RuleContext> {
+  updateRuleData(id: number, ruleContext: RuleContext): Observable<RuleContext> {
     return this.http.put(`${this.baseUrl}/FunctionTypes/UpdateRuleData/${id}`, ruleContext)
         .map(this.extractPostData)
         .catch(this.handleError);
   }
-  getAllRules(businessName:string, profileNo: string): Observable<any[]> {
-    return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllRules/${businessName}/${profileNo}`)    
+  getAllRules(businessName: string, profileNo: string): Observable<any[]> {
+    return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllRules/${businessName}/${profileNo}`)
     .map(this.extractDataDO)
     .catch(this.handleError);
   }
-  getAllSyntaxBasedOnFunctionDetails(id:number): Observable<any[]> {
+  getAllSyntaxBasedOnFunctionDetails(id: number): Observable<any[]> {
     return this.http.get(`${this.baseUrl}/FunctionTypes/GetAllSyntaxDetailsBasedOnFunction/${id}`)
       .map(this.extractData)
       .catch(this.handleError);
