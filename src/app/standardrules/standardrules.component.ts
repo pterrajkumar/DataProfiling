@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, ViewContainerRef } from '@angular/core';
-import { ListboxModule, SelectItem } from "primeng/primeng";
+import { ListboxModule, SelectItem } from 'primeng/primeng';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GenericValidator } from '../shared/generic-validator';
@@ -30,8 +30,8 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
   selectedTargetSRules: string[] = [];
   errorMessage: string;
   standardRulesContext: StandardRulesContext = new StandardRulesContext();
-  selectedStandardRule: string = "";
-  standardRules:any[];
+  selectedStandardRule = '';
+  standardRules: any[];
 
    // Use with the generic validation message class
    displayMessage: { [key: string]: string } = {};
@@ -41,17 +41,17 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
   constructor
   (
     private fb: FormBuilder,
-    public toastr: ToastsManager, 
+    public toastr: ToastsManager,
     vcr: ViewContainerRef,
     private route: ActivatedRoute,
     public standardRulesService: StandardRuleService
-  ) 
+  )
   {
       this.toastr.setRootViewContainerRef(vcr);
       this.route.params.subscribe((params: Params) => {
-        /*Call this function when URL Route Parameter changes*/ 
+        /*Call this function when URL Route Parameter changes*/
         this.emitMethodCallOnRouteParam(params);
-      }); 
+      });
 
       // Defines all of the validation messages for the form.
       // These could instead be retrieved from a file or database.
@@ -64,7 +64,7 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
             required: 'Select the Standard Rule.'
         }
       };
-      // Define an instance of the validator for use with this form, 
+      // Define an instance of the validator for use with this form,
       // passing in this form's set of validation messages.
       this.genericValidator = new GenericValidator(this.validationMessages);
   }
@@ -72,21 +72,21 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     //Define the formControlNames
     this.standardRulesForm = this.fb.group({
-      ddStandardRule:[0,[Validators.required]],
-      lbSourceSRules:['', []],
-      lbTargetSRules:['', [Validators.required]]      
+      ddStandardRule: [0, [Validators.required]],
+      lbSourceSRules: ['', []],
+      lbTargetSRules: ['', [Validators.required]]
     });
 
     this.standardRules = [
       {id: '0', value: 'Positive Standard Rules'},
       {id: '1', value: 'Negation Standard Rules'}
-    ]
+    ];
     this.selectedStandardRule = '0';
   }
 
   ngAfterViewInit(): void {
     // Watch for the blur event from any input element on the form.
-    let controlBlurs: Observable<any>[] = this.formInputElements
+    const controlBlurs: Observable<any>[] = this.formInputElements
     .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
     // Merge the blur event observable with the valueChanges observable
     Observable.merge(this.standardRulesForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
@@ -98,36 +98,36 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
   /*Call this function when URL Route Parameter changes*/
   emitMethodCallOnRouteParam(params: Params)
   {
-    if(params != null && params.id != null){
+    if (params != null && params.id != null){
       this.businessProfParam = params.id;
-      var businessNameProfileNum = this.businessProfParam.split("~");
-      if(businessNameProfileNum[0] != null && businessNameProfileNum[1] != null){
+      const businessNameProfileNum = this.businessProfParam.split('~');
+      if (businessNameProfileNum[0] != null && businessNameProfileNum[1] != null){
         this.getAllStandardRules(businessNameProfileNum[0], businessNameProfileNum[1]);
       }
-    }    
+    }
   }
 
   /** Region: Fields to Profile */
   onBSRBtnRight()
   {
-    if(this.selectedSourceSRules.length > 0){
-      let str:string="";
-      for(let item of this.selectedSourceSRules){
-        if(str !="")
+    if (this.selectedSourceSRules.length > 0){
+      let str = '';
+      for (const item of this.selectedSourceSRules){
+        if (str != '')
           str += ', ';
         str += item;
       }
-      this.lbTSRR.push({label:str, value:str});
+      this.lbTSRR.push({label: str, value: str});
       //to highlight the selected item on the listbox
-      this.selectedTargetSRules = [str];      
+      this.selectedTargetSRules = [str];
     }
   }
   /* removing the selected field from the target field */
   onBSRBtnLeft()
   {
-    if(this.selectedTargetSRules.length > 0){
+    if (this.selectedTargetSRules.length > 0){
       this.selectedTargetSRules.forEach(elm => {
-        var indexArrItem = this.lbTSRR.filter(element => elm.indexOf(element.label) >= 0);
+        const indexArrItem = this.lbTSRR.filter(element => elm.indexOf(element.label) >= 0);
         const index: number = this.lbTSRR.indexOf(indexArrItem[0]);
         if (index !== -1) {
             this.lbTSRR.splice(index, 1);
@@ -136,28 +136,28 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getAllStandardRules(businessName:string, profileNum:string){
-    console.log("getAllStandardRules");
+  getAllStandardRules(businessName: string, profileNum: string){
+    console.log('getAllStandardRules');
     this.standardRulesService.getAllStandardRules(businessName, profileNum)
     .subscribe( data => {
-      this.standardRulesContext = data;      
-      this.loadStandardRulesOnChanges(this.selectedStandardRule); 
-      this.lbTSRR=[];      
+      this.standardRulesContext = data;
+      this.loadStandardRulesOnChanges(this.selectedStandardRule);
+      this.lbTSRR = [];
       this.standardRulesContext.standardRulesList.forEach(item => {
         this.lbTSRR.push({label: item.standardRuleDef, value: item.standardRuleDef});
-      });     
+      });
     },
     (error: any) => this.errorMessage = <any>error
     );
   }
 
-  onSelectedStandardRule(standardRuleType){    
+  onSelectedStandardRule(standardRuleType){
     this.loadStandardRulesOnChanges(standardRuleType);
   }
 
   loadStandardRulesOnChanges(ruleType){
-    this.lbSSRL=[];
-    if(this.selectedStandardRule == '0'){
+    this.lbSSRL = [];
+    if (this.selectedStandardRule == '0'){
       this.standardRulesContext.positiveStandardRulesList.forEach(item => {
         this.lbSSRL.push({label: item.standardRuleDef, value: item.standardRuleDef});
       });
@@ -165,7 +165,7 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
       this.standardRulesContext.negationStandardRulesList.forEach(item => {
         this.lbSSRL.push({label: item.standardRuleDef, value: item.standardRuleDef});
       });
-    }    
+    }
   }
 
   save(): void {
@@ -176,28 +176,28 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
           this.standardRulesContext = details;
         },
         (error: any) => this.errorMessage = <any>error,
-        () => this.onComplete()      
+        () => this.onComplete()
       );
     }
   }
 
   prepareSaveStandardRules(): StandardRulesContext {
-    let formModel = Object.assign({}, this.standardRulesForm, this.standardRulesForm.value);
+    const formModel = Object.assign({}, this.standardRulesForm, this.standardRulesForm.value);
 
-    let standardRulesArr: IStandardRulesContext[] = [];
+    const standardRulesArr: IStandardRulesContext[] = [];
     this.lbTSRR.forEach(item => {
       standardRulesArr.push({standardRuleDef: item.label});
     });
     console.log(standardRulesArr);
-    var businessNameProfileNum = this.businessProfParam.split("~");
+    const businessNameProfileNum = this.businessProfParam.split('~');
 
     const saveStandardRules: StandardRulesContext = {
       standardRulesList: standardRulesArr,
       positiveStandardRulesList: [],
-      negationStandardRulesList: [],      
+      negationStandardRulesList: [],
       BusinessObjectName: businessNameProfileNum[0],
       profileNum: businessNameProfileNum[1],
-      message:"",
+      message: '',
       operationSuccess: false
     };
     console.log(saveStandardRules);
@@ -206,19 +206,19 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
 
   onComplete(): void {
     // Reset the form to clear the flags
-    if(this.standardRulesContext.operationSuccess){
-      if(this.standardRulesContext.message != null)
+    if (this.standardRulesContext.operationSuccess){
+      if (this.standardRulesContext.message != null)
         this.toastr.success(this.standardRulesContext.message);
         //Refresh the component after save
-        if(this.route.snapshot.params['id'] != null){
+        if (this.route.snapshot.params['id'] != null){
           console.log(this.route.snapshot.params['id']);
-          let params: Params= [{'id': this.route.snapshot.params['id']}];
+          const params: Params = [{'id': this.route.snapshot.params['id']}];
           params.id = this.route.snapshot.params['id'];
           this.emitMethodCallOnRouteParam(params);
-        }        
+        }
     }else{
-      if(this.standardRulesContext.message != null)
+      if (this.standardRulesContext.message != null)
         this.toastr.error(this.standardRulesContext.message);
-    }    
+    }
   }
 }

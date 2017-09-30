@@ -1,13 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators, FormControlName } from '@angular/forms';
 import { SelectItem } from 'primeng/primeng';
-import { DropdownModule } from 'primeng/primeng';
-import { RuleContext } from "../models/rule-context";
-import { RuleServiceService } from "../service/rule-service.service";
-import { IRuleControlMasterContext } from "../models/irule-control-master-context";
-import { ToastsManager } from "ng2-toastr/src/toast-manager";
+import { RuleContext } from '../models/rule-context';
+import { RuleServiceService } from '../service/rule-service.service';
+import { IRuleControlMasterContext } from '../models/irule-control-master-context';
+import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { ListboxModule } from 'primeng/primeng';
-import { IRulesTrendContext } from "../models/i-rules-trend-context";
+import { IRulesTrendContext } from '../models/i-rules-trend-context';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -16,11 +15,11 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./rules.component.css']
 })
 export class RulesComponent implements OnInit {
-  lblSyntax: string = "";
+  lblSyntax = '';
   profileNo: any;
   businessProfParam: any;
-  txtRuleName: string = "";
-  businessName: string = "";
+  txtRuleName = '';
+  businessName = '';
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
   ruleForm: FormGroup;
   errorMessage: string;
@@ -30,12 +29,12 @@ export class RulesComponent implements OnInit {
   functionType: IRuleControlMasterContext[];
   functionAttribute: IRuleControlMasterContext[];
   data: any[];
-  private rowData: any[];
+  rowData: any[];
   ruleContext: RuleContext = new RuleContext();
   syntaxAttribute: IRuleControlMasterContext[];
-  selectedRuleCategory: string = "";
-  selectedRuleDimension: string = "";
-  selectedRuleType: string = "";
+  selectedRuleCategory = '';
+  selectedRuleDimension = '';
+  selectedRuleType = '';
   ruleID: number;
   rndRuleType: SelectItem[];
   constructor(
@@ -54,17 +53,17 @@ export class RulesComponent implements OnInit {
   ngOnInit() {
     this.ruleForm = this.fb.group({
       ddRuleCategory: ['', []],
-      txtRuleName: "",
+      txtRuleName: '',
       txtDescription: ['', []],
-      txtErrorMessage: "",
+      txtErrorMessage: '',
       ddRuleDimension: ['', []],
       ddRuleType: ['', []],
       ddFunctionType: ['', []],
       ddAttribute: ['', []],
-      txtAreaFilter: "",
-      txtAreaRule: "",
-      fnExistingBusinessName: "",
-      lblSyntax: "",
+      txtAreaFilter: '',
+      txtAreaRule: '',
+      fnExistingBusinessName: '',
+      lblSyntax: '',
     });
     this.ruleCategory = [];
     this.ruleDimension = [];
@@ -81,7 +80,7 @@ export class RulesComponent implements OnInit {
   emitMethodCallOnRouteParam(params: Params) {
     if (params != null && params.id != null) {
       this.businessProfParam = params.id;
-      var businessNameProfileNum = this.businessProfParam.split("~");
+      const businessNameProfileNum = this.businessProfParam.split('~');
       if (businessNameProfileNum[0] != null && businessNameProfileNum[1] != null) {
         this.businessName = businessNameProfileNum[0];
         this.profileNo = businessNameProfileNum[1];
@@ -100,9 +99,9 @@ export class RulesComponent implements OnInit {
       .subscribe(
       details => {
         this.data = details;
-        this.ruleCategory = this.data.filter(item => item.attributeType == "RULE_CATEGORY");
-        this.ruleDimension = this.data.filter(item => item.attributeType == "DQ_DIMENSION");
-        this.ruleType = this.data.filter(item => item.attributeType == "RULE TYPE");
+        this.ruleCategory = this.data.filter(item => item.attributeType == 'RULE_CATEGORY');
+        this.ruleDimension = this.data.filter(item => item.attributeType == 'DQ_DIMENSION');
+        this.ruleType = this.data.filter(item => item.attributeType == 'RULE TYPE');
       },
       (error: any) => this.errorMessage = <any>error
       );
@@ -166,46 +165,46 @@ export class RulesComponent implements OnInit {
 
   // This event will add value from lblSyntax to Rule Textarea
   AddtoRule() {
-    if (this.lblSyntax != null && this.lblSyntax != "") {
+    if (this.lblSyntax != null && this.lblSyntax != '') {
       this.ruleForm.patchValue({
         txtAreaRule: this.lblSyntax,
       });
     }
     else
-      this.toastr.error("Please select a value from Attributes");
+      this.toastr.error('Please select a value from Attributes');
   }
 
   // This event will add value from lblSyntax to Filter Textarea
   AddtoFilter() {
-    if (this.lblSyntax != null && this.lblSyntax != "") {
+    if (this.lblSyntax != null && this.lblSyntax != '') {
       this.ruleForm.patchValue({
         txtAreaFilter: this.lblSyntax,
       });
     }
     else
-      this.toastr.error("Please select a value from Attributes");
+      this.toastr.error('Please select a value from Attributes');
   }
 
   /* This method is to Validate Rule Textarea on Button click event */
   ValidateRule() {
-    let formModel = Object.assign({}, this.ruleForm, this.ruleForm.value);
+    const formModel = Object.assign({}, this.ruleForm, this.ruleForm.value);
 
-    if (this.businessName == null || this.businessName == "")
-      this.toastr.error("Please select Business");
+    if (this.businessName == null || this.businessName == '')
+      this.toastr.error('Please select Business');
 
-    if (formModel.txtAreaRule == "")
-      this.toastr.error("Please enter in Rule before validating this");
+    if (formModel.txtAreaRule == '')
+      this.toastr.error('Please enter in Rule before validating this');
 
-    if (this.businessName != null && this.businessName != "" && 
-        formModel.txtAreaRule != null && formModel.txtAreaRule != "") {
-      let prepContextArr: IRulesTrendContext[] = [];
+    if (this.businessName != null && this.businessName != '' &&
+        formModel.txtAreaRule != null && formModel.txtAreaRule != '') {
+      const prepContextArr: IRulesTrendContext[] = [];
       const prepContext: IRulesTrendContext = {
         businessName: this.businessName,
         profileNum: this.profileNo,
         ruleSuccessCondition: formModel.txtAreaRule
-      }
+      };
       prepContextArr.push(prepContext);
-      let masterContext = new RuleContext();
+      const masterContext = new RuleContext();
       masterContext.rulesTrendListDO = prepContextArr;
       this.callValidationService(masterContext);
     }
@@ -214,21 +213,21 @@ export class RulesComponent implements OnInit {
   /* This method is to Validate Filter Textarea on Button click event */
   ValidateFilter() {
     //todo needs to check this
-    let formModel = Object.assign({}, this.ruleForm, this.ruleForm.value);
+    const formModel = Object.assign({}, this.ruleForm, this.ruleForm.value);
 
-    if (formModel.txtAreaFilter == "")
-      this.toastr.error("Please enter in filter before validating this");
+    if (formModel.txtAreaFilter == '')
+      this.toastr.error('Please enter in filter before validating this');
 
-    
-    if (formModel.txtAreaFilter != "") {
-      let prepContextArr: IRulesTrendContext[] = [];
+
+    if (formModel.txtAreaFilter != '') {
+      const prepContextArr: IRulesTrendContext[] = [];
       const prepContext: IRulesTrendContext = {
         businessName: this.businessName,
         profileNum: this.profileNo,
         ruleSuccessCondition: formModel.txtAreaFilter
-      }
+      };
       prepContextArr.push(prepContext);
-      let masterContext = new RuleContext();
+      const masterContext = new RuleContext();
       masterContext.rulesTrendListDO = prepContextArr;
       this.callValidationService(masterContext);
     }
@@ -237,41 +236,41 @@ export class RulesComponent implements OnInit {
   // This method will be called on Save button click and will save data into DB.
   postRuleData() {
     this.ValidateRule();
-    let formModel = Object.assign({}, this.ruleForm, this.ruleForm.value);
+    const formModel = Object.assign({}, this.ruleForm, this.ruleForm.value);
 
-    if (this.businessName == null || this.businessName == "") {
-      this.toastr.error("Please select Business");
+    if (this.businessName == null || this.businessName == '') {
+      this.toastr.error('Please select Business');
     }
-    if (this.selectedRuleCategory == "")
-      this.toastr.error("Please select Rule Category");
+    if (this.selectedRuleCategory == '')
+      this.toastr.error('Please select Rule Category');
 
-    if (this.selectedRuleDimension == "")
-      this.toastr.error("Please select Rule Dimension");
+    if (this.selectedRuleDimension == '')
+      this.toastr.error('Please select Rule Dimension');
 
-    if (this.selectedRuleType == "")
-      this.toastr.error("Please select Rule Type");
+    if (this.selectedRuleType == '')
+      this.toastr.error('Please select Rule Type');
 
-    if (formModel.txtRuleName == null || formModel.txtRuleName == "")
-      this.toastr.error("Please enter in RuleName");
+    if (formModel.txtRuleName == null || formModel.txtRuleName == '')
+      this.toastr.error('Please enter in RuleName');
 
-    if (formModel.txtErrorMessage == null || formModel.txtErrorMessage == "")
-      this.toastr.error("Please enter in Error Message");
+    if (formModel.txtErrorMessage == null || formModel.txtErrorMessage == '')
+      this.toastr.error('Please enter in Error Message');
 
-    if (formModel.txtAreaRule == null || formModel.txtAreaRule == "")
-      this.toastr.error("Please enter in Rule");
+    if (formModel.txtAreaRule == null || formModel.txtAreaRule == '')
+      this.toastr.error('Please enter in Rule');
 
-    if (this.businessName != "" && this.profileNo != "" && this.selectedRuleCategory != ""
-      && this.selectedRuleDimension != "" && this.selectedRuleType != ""
-      && formModel.txtRuleName != null && formModel.txtRuleName != ""
-      && formModel.txtErrorMessage != null && formModel.txtErrorMessage != ""
-      && formModel.txtAreaRule != null && formModel.txtAreaRule != "") {
-      let ruleContext = new RuleContext();
-      let rulesTrendListDO: IRulesTrendContext[] = [];
+    if (this.businessName != '' && this.profileNo != '' && this.selectedRuleCategory != ''
+      && this.selectedRuleDimension != '' && this.selectedRuleType != ''
+      && formModel.txtRuleName != null && formModel.txtRuleName != ''
+      && formModel.txtErrorMessage != null && formModel.txtErrorMessage != ''
+      && formModel.txtAreaRule != null && formModel.txtAreaRule != '') {
+      const ruleContext = new RuleContext();
+      const rulesTrendListDO: IRulesTrendContext[] = [];
 
       const rulesTrendDO: IRulesTrendContext = {
         businessName: this.businessName,
         profileNum: this.profileNo,
-        baseTableName: this.businessName + "_" + this.profileNo,
+        baseTableName: this.businessName + '_' + this.profileNo,
         ruleCategory: this.selectedRuleCategory,
         ruleDimension: this.selectedRuleDimension,
         ruleType: this.selectedRuleType,
@@ -280,7 +279,7 @@ export class RulesComponent implements OnInit {
         ruleFilter: formModel.txtAreaFilter,
         ruleSuccessCondition: formModel.txtAreaRule,
         errorDescription: formModel.txtErrorMessage
-      }
+      };
       rulesTrendListDO.push(rulesTrendDO);
       ruleContext.rulesTrendListDO = rulesTrendListDO;
 
@@ -303,8 +302,8 @@ export class RulesComponent implements OnInit {
 
   // This method will be used to populate data into the screen once user cliks Edit button in Grid.
   populateGridvaluesToScreen(rulesTrendDO: IRulesTrendContext) {
-    let ruleContext = new RuleContext();
-    let rulesTrendListDO: IRulesTrendContext[] = [];
+    const ruleContext = new RuleContext();
+    const rulesTrendListDO: IRulesTrendContext[] = [];
     this.ruleID = rulesTrendDO.rulePk;
     this.selectedRuleCategory = rulesTrendDO.ruleCategory;
     this.selectedRuleDimension = rulesTrendDO.ruleDimension;
@@ -326,12 +325,12 @@ export class RulesComponent implements OnInit {
         this.toastr.success(this.ruleContext.message);
         this.ruleForm.reset();
         this.callAllRuleData(this.businessName, this.profileNo);
-        this.txtRuleName = "";
-        this.selectedRuleCategory = "";
-        this.selectedRuleDimension = "";
-        this.selectedRuleType = "";
+        this.txtRuleName = '';
+        this.selectedRuleCategory = '';
+        this.selectedRuleDimension = '';
+        this.selectedRuleType = '';
         this.ruleID = null;
-        this.lblSyntax = "";
+        this.lblSyntax = '';
       }
     } else {
       if (this.ruleContext.message != null)

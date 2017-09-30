@@ -8,33 +8,33 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 
-import { FieldsToProfileContext } from "./../models/fields-to-profile-context";
+import { FieldsToProfileContext } from './../models/fields-to-profile-context';
 import { Configuration } from '../app.constants';
 
 @Injectable()
 export class FieldToProfileServiceService {
 
   private baseUrl: string;
-  constructor(private http: Http, private _configuration: Configuration) { 
+  constructor(private http: Http, private _configuration: Configuration) {
     this.baseUrl = _configuration.ServerWithApiUrl;
   }
 
   getFieldsToProfile(BusinessObjectName: string, ProfileNum: string): Observable<FieldsToProfileContext> {
-    return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`, 
+    return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`,
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractDataDetails)
       .catch(this.handleError);
   }
-  
+
   private extractData(res: Response) {
-    let body = res.json();
+    const body = res.json();
     //console.log(body.context.list);
     return body.context.list || {};
   }
-  
+
   private extractDataDetails(res: Response) {
-    let body = res.json(); 
-    console.log(body);   
+    const body = res.json();
+    console.log(body);
     return body.context || { };
   }
   handleError(error: Response | any) {

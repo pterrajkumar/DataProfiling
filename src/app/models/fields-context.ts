@@ -1,5 +1,5 @@
-import { IFieldContext } from "./interfaces/ifield-context";
-import { IMetaDatatypeTrend } from "./interfaces/imetadatatypetrend";
+import { IFieldContext } from './interfaces/ifield-context';
+import { IMetaDatatypeTrend } from './interfaces/imetadatatypetrend';
 
 export class FieldsContext {
     public fieldContextList: IFieldContext[];

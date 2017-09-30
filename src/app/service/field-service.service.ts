@@ -14,20 +14,20 @@ import { Configuration } from '../app.constants';
 export class FieldServiceService {
 
   private baseUrl: string;
-  constructor(private http: Http, private _configuration: Configuration) { 
+  constructor(private http: Http, private _configuration: Configuration) {
     this.baseUrl = _configuration.ServerWithApiUrl;
   }
 
   getAllFields(BusinessObjectName: string, ProfileNum: string): Observable<FieldsContext> {
-    return this.http.get(`${this.baseUrl}/Field/GetAllFields`, 
+    return this.http.get(`${this.baseUrl}/Field/GetAllFields`,
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractContext)
       .catch(this.handleError);
   }
 
   uploadFileRequest(uploadedFile: any, profileName: string): Observable<FieldsContext> {
-    let input = new FormData();
-    input.append("file", uploadedFile, profileName);    
+    const input = new FormData();
+    input.append('file', uploadedFile, profileName);
     return this.http.post(`${this.baseUrl}/Field/UploadMetaDataTypeCsvFile`, input)
         .map(this.extractContext)
         .catch(this.handleError);
@@ -37,7 +37,7 @@ export class FieldServiceService {
     return this.http.post(`${this.baseUrl}/Field` + '/SaveMetadataDetails', metaDataTypesRequest)
     .map(this.extractContext)
     .catch(this.handleError);
-  } 
+  }
 
   /* getCarsSmall() {
     return this.http.get('/showcase/resources/data/cars-small.json')
@@ -50,14 +50,14 @@ export class FieldServiceService {
 
 
   getKeyFields(BusinessObjectName: string, ProfileNum: string): Observable<any[]> {
-    return this.http.get(`${this.baseUrl}/Field/GetKeyFields`, 
+    return this.http.get(`${this.baseUrl}/Field/GetKeyFields`,
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getFieldsToProfile(BusinessObjectName: string, ProfileNum: string): Observable<any[]> {
-    return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`, 
+    return this.http.get(`${this.baseUrl}/Field/GetFieldsToProfile`,
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractData)
       .catch(this.handleError);
@@ -65,24 +65,24 @@ export class FieldServiceService {
 
 
   private extractData(res: Response) {
-    let body = res.json();
+    const body = res.json();
     //console.log(body.context.list);
     return body.context.list || {};
   }
 
-  private extractContext(res:Response) {
-    let body = res.json();
+  private extractContext(res: Response) {
+    const body = res.json();
     console.log(body.context);
     return body.context || {};
   }
 
-  setFieldsToProfile(data: any[],BusinessObjectName: string, ProfileNum: string) {
+  setFieldsToProfile(data: any[], BusinessObjectName: string, ProfileNum: string) {
     console.log(JSON.stringify(data));
-    let input = new FormData();
+    const input = new FormData();
     //console.log(JSON.stringify(data));
-    input.append("colNames", JSON.stringify(data));
-    input.append("BusinessObjectName",BusinessObjectName);
-    input.append("ProfileNum",ProfileNum);
+    input.append('colNames', JSON.stringify(data));
+    input.append('BusinessObjectName', BusinessObjectName);
+    input.append('ProfileNum', ProfileNum);
     return this.http.post(`${this.baseUrl}/Field/SetFieldsToProfile`, input)
         .map(this.extractContext)
         //.do(data => console.log('uploadedFiles: ' + JSON.stringify(data)))

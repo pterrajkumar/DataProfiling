@@ -1,4 +1,4 @@
-import { FieldsContext } from "./fields-context";
+import { FieldsContext } from './fields-context';
 export class FieldsToProfileContext {
     public allFieldsContext: FieldsContext;
     public fieldstoProfileContext: FieldsContext;

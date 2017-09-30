@@ -3,11 +3,11 @@ import { Component, OnInit, Input, ElementRef, ViewContainerRef, ViewChildren } 
 import { FormGroup, FormBuilder, FormControlName, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
 import { Message, ConfirmationService } from 'primeng/components/common/api';
 import { IProfileInterfaceContext } from '../models/iprofile-context';
-import { IProfileControlMasterContext } from "../models/iprofile-control-master-context";
+import { IProfileControlMasterContext } from '../models/iprofile-control-master-context';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ProfileServiceService } from '../service/profile-service.service';
-import { RadioButtonModule, InputTextModule, TooltipModule, DialogModule, SelectItem, DropdownModule } from 'primeng/primeng';
-import { ProfileContext } from "../models/profile-context";
+import { RadioButtonModule, InputTextModule, TooltipModule, DialogModule, SelectItem } from 'primeng/primeng';
+import { ProfileContext } from '../models/profile-context';
 
 
 @Component({
@@ -20,16 +20,16 @@ export class ProfileComponent implements OnInit {
   msgs: Message[];
   errorMessage: string;
   profileForm: FormGroup;
-  selectedValue: number = 1;
-  txtBusinessName: string = "";
+  selectedValue = 1;
+  txtBusinessName = '';
   existingBusinessName: SelectItem[];
-  selectedBusinessName: string = "";
-  selectedProfileNum: string = "";
-  newprofile:boolean = true;
-  existingprofile:boolean = false;
-  copyMetaData:boolean = false;
-  chkCopyMetaValue: boolean = false;
-  displayDialog: boolean = false;
+  selectedBusinessName = '';
+  selectedProfileNum = '';
+  newprofile = true;
+  existingprofile = false;
+  copyMetaData = false;
+  chkCopyMetaValue = false;
+  displayDialog = false;
   /* isProfileNumIncreased: boolean = false; */
   profileContext: ProfileContext = new ProfileContext();
   metaProfileContext: ProfileContext = new ProfileContext();
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     public toastr: ToastsManager, vcr: ViewContainerRef,
     public profileService: ProfileServiceService,
-    private confirmationService: ConfirmationService    
+    private confirmationService: ConfirmationService
   )
   {
     this.toastr.setRootViewContainerRef(vcr);
@@ -51,12 +51,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
-      rdprofile:[],
-      ddbusinessname: ['0',[]],
-      ddprofilenumber: [1,[]],
-      txtbusinessname:"",
-      chkCopyMetadata: "1",
-      fnExistingBusinessName:""   
+      rdprofile: [],
+      ddbusinessname: ['0', []],
+      ddprofilenumber: [1, []],
+      txtbusinessname: '',
+      chkCopyMetadata: '1',
+      fnExistingBusinessName: ''
     });
 
     /* Init the New Profile Dataset UI */
@@ -65,26 +65,26 @@ export class ProfileComponent implements OnInit {
 
   /* DOM Events */
   myUploader(event) {
-      for (let file of event.files) {
+      for (const file of event.files) {
           this.uploadFileService(file);
       }
   }
 
-  onRdProfileClick(val) {    
+  onRdProfileClick(val) {
     this.selectedValue = val;
-    this.txtBusinessName = "";
-    this.selectedBusinessName = "";
-    this.selectedProfileNum = "";
+    this.txtBusinessName = '';
+    this.selectedBusinessName = '';
+    this.selectedProfileNum = '';
     if (this.selectedValue === 1) {
-      if(this.profileContext.list != null)
+      if (this.profileContext.list != null)
         this.profileContext.list = null;
-      this.profileNumContext = [{'businessObjectName':'', 'profileNum':1}];
+      this.profileNumContext = [{'businessObjectName': '', 'profileNum': 1}];
       this.newprofile = true;
       this.existingprofile = false;
       this.copyMetaData = false;
       this.chkCopyMetaValue = false;
     } else {
-      this.newprofile= false;
+      this.newprofile = false;
       this.existingprofile = true;
       this.chkCopyMetaValue = false;
       this.copyMetaData = false;
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
     this.profileNumContext = [];
     this.profileNumContext = this.profileContext.list.filter(
       item => item.businessObjectName == businessObjName);
-    
+
     /* if(!this.isProfileNumIncreased){
       this.profileControlMaster.forEach(element => {
         element.profileNum += 1;
@@ -111,7 +111,7 @@ export class ProfileComponent implements OnInit {
   /*  */
   onChkMetaClick()
   {
-    if(this.chkCopyMetaValue == true){
+    if (this.chkCopyMetaValue == true){
       this.showDialog();
     }else {
       this.copyMetaData = false;
@@ -124,7 +124,7 @@ export class ProfileComponent implements OnInit {
   }
 
   /* This Event emits on clicking the Ok button on Dialog */
-  dialogOK() {    
+  dialogOK() {
     //Enable the button to copy MetaData
     this.copyMetaData = true;
   }
@@ -137,36 +137,36 @@ export class ProfileComponent implements OnInit {
 
   /* Copy MetaData Button click event */
   copyMetaDataClick(){
-    if(this.selectedBusinessName == "")
-      this.toastr.error("Please select the Business Name!");
+    if (this.selectedBusinessName == '')
+      this.toastr.error('Please select the Business Name!');
 
-    if(this.selectedProfileNum == "")
-      this.toastr.error("Please select the Profile Number!");
+    if (this.selectedProfileNum == '')
+      this.toastr.error('Please select the Profile Number!');
 
-    if(this.selectedBusinessName != "" && this.selectedProfileNum != ""){
-      let prepContextArr: IProfileControlMasterContext[] = [];
+    if (this.selectedBusinessName != '' && this.selectedProfileNum != ''){
+      const prepContextArr: IProfileControlMasterContext[] = [];
       const prepContext: IProfileControlMasterContext = {
         businessObjectName: this.selectedBusinessName,
         profileNum: Number(this.selectedProfileNum)
-      }
+      };
       prepContextArr.push(prepContext);
-      let masterContext = new ProfileContext();
+      const masterContext = new ProfileContext();
       masterContext.miniProfileControlMasterDO = prepContextArr;
       this.callCopyMetaDataService(masterContext);
-    }    
+    }
   }
 
   /* SERVICE CALLS */
   /* Used for file Upload */
   uploadFileService(files) {
-    let profileDetails: string = this.retrieveFormDetailsForUpload();
+    const profileDetails: string = this.retrieveFormDetailsForUpload();
     this.profileService.uploadFileRequest(files, profileDetails)
         .subscribe(
           details => {
             this.profileContext = details;
           },
           (error: any) => this.errorMessage = <any>error,
-          () => this.onComplete()          
+          () => this.onComplete()
         );
   }
 
@@ -177,11 +177,11 @@ export class ProfileComponent implements OnInit {
       details => {
         this.profileContext = details;
         details.list.forEach(item => {
-          this.existingBusinessName.push({label: item.businessObjectName, value:{name: item.businessObjectName}});
+          this.existingBusinessName.push({label: item.businessObjectName, value: {name: item.businessObjectName}});
         });
       },
       (error: any) => this.errorMessage = <any>error,
-      () => this.onComplete()      
+      () => this.onComplete()
     );
   }
 
@@ -192,14 +192,14 @@ export class ProfileComponent implements OnInit {
         this.metaProfileContext = details;
       },
       (error: any) => this.errorMessage = <any>error,
-      () => this.onMetaCopyComplete()            
+      () => this.onMetaCopyComplete()
     );
   }
 
-  //TODO: Not used. 
+  //TODO: Not used.
   /* async callUploadFileService(files): Promise<void> {
     //this.profileInterfaceContext = this.prepareUploadFile(files);
-    await this.profileService.uploadFile(files);    
+    await this.profileService.uploadFile(files);
     this.onSaveComplete();
   } */
 
@@ -214,15 +214,15 @@ export class ProfileComponent implements OnInit {
 
   retrieveFormDetailsForUpload(): string {
     // Copy the form values over the product object values
-    let formModel = Object.assign({}, this.profileForm, this.profileForm.value);
-    let businessName: string = "";    
-    if(formModel.rdprofile == 1) {
+    const formModel = Object.assign({}, this.profileForm, this.profileForm.value);
+    let businessName = '';
+    if (formModel.rdprofile == 1) {
       businessName = formModel.txtbusinessname as string;
     }else {
       businessName = formModel.ddbusinessname as string;
     }
-    let profileNum = formModel.ddprofilenumber as number;    
-    return businessName+"~"+profileNum as string;
+    const profileNum = formModel.ddprofilenumber as number;
+    return businessName + '~' + profileNum as string;
   }
 
   /* PRIVATE METHODS */
@@ -235,23 +235,23 @@ export class ProfileComponent implements OnInit {
 
   onComplete(): void {
     // Reset the form to clear the flags
-    if(this.profileContext.operationSuccess){
-      if(this.profileContext.message != null)
+    if (this.profileContext.operationSuccess){
+      if (this.profileContext.message != null)
         this.toastr.success(this.profileContext.message);
     }else{
-      if(this.profileContext.message != null)
+      if (this.profileContext.message != null)
         this.toastr.error(this.profileContext.message);
-    }    
+    }
   }
 
   onMetaCopyComplete(): void {
     // Reset the form to clear the flags
-    if(this.metaProfileContext.operationSuccess){
-      if(this.metaProfileContext.message != null)
+    if (this.metaProfileContext.operationSuccess){
+      if (this.metaProfileContext.message != null)
         this.toastr.success(this.metaProfileContext.message);
     }else{
-      if(this.metaProfileContext.message != null)
+      if (this.metaProfileContext.message != null)
         this.toastr.error(this.metaProfileContext.message);
-    }    
+    }
   }
 }

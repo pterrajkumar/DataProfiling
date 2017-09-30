@@ -1,5 +1,5 @@
 
-import { IProfileControlMasterContext } from "./iprofile-control-master-context";
+import { IProfileControlMasterContext } from './iprofile-control-master-context';
 
 export class ProfileContext {
     public miniProfileControlMasterDO: IProfileControlMasterContext[];

@@ -7,7 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { ProfileContext } from "../models/profile-context";
+import { ProfileContext } from '../models/profile-context';
 import { Configuration } from '../app.constants';
 
 @Injectable()
@@ -15,7 +15,7 @@ import { Configuration } from '../app.constants';
 export class ProfileServiceService {
 
   private baseUrl: string;
-  constructor(private http: Http, private _configuration: Configuration) { 
+  constructor(private http: Http, private _configuration: Configuration) {
     this.baseUrl = _configuration.ServerWithApiUrl;
   }
 
@@ -23,8 +23,8 @@ export class ProfileServiceService {
   /* Not used */
   async uploadFile(uploadedFile: any): Promise<void> {
     try {
-      let input = new FormData();
-      input.append("file", uploadedFile);
+      const input = new FormData();
+      input.append('file', uploadedFile);
       const url = `${this.baseUrl}/ImportFiles`;
       await this.http
         .post(url, input)
@@ -36,8 +36,8 @@ export class ProfileServiceService {
   }
 
   uploadFileRequest(uploadedFile: any, profileName: string): Observable<ProfileContext> {
-    let input = new FormData();
-    input.append("file", uploadedFile, profileName);    
+    const input = new FormData();
+    input.append('file', uploadedFile, profileName);
     return this.http.post(`${this.baseUrl}/ImportFiles/UploadFile`, input)
         .map(this.extractDataDetails)
         //.do(data => console.log('uploadedFiles: ' + JSON.stringify(data)))
@@ -69,13 +69,13 @@ export class ProfileServiceService {
   }
 
   private extractDataDetails(res: Response) {
-    let body = res.json(); 
-    console.log(body.context);   
+    const body = res.json();
+    console.log(body.context);
     return body.context || { };
   }
 
   private extractData(res: Response) {
-    let body = res.json();
+    const body = res.json();
     return body.context.List || { };
   }
 

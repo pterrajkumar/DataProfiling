@@ -1,3 +1,3 @@
 export interface IStandardRulesContext {
-    standardRuleDef:string
+    standardRuleDef: string;
 }

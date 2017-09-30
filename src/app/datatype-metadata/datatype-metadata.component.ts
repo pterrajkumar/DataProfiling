@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, Input, ViewChildren, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControlName, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
-import { FileUploadModule, ListboxModule, SelectItem, DataTableModule, SharedModule } from "primeng/primeng";
+import { FileUploadModule, ListboxModule, SelectItem, DataTableModule, SharedModule } from 'primeng/primeng';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FieldServiceService } from '../service/field-service.service';
@@ -22,9 +22,9 @@ import { IFieldContext } from '../models/interfaces/ifield-context';
   templateUrl: './datatype-metadata.component.html',
   styleUrls: ['./datatype-metadata.component.css']
 })
-export class DatatypeMetadataComponent implements OnInit, AfterViewInit {  
+export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-  
+
   businessProfParam: string;
   datatypeMetadataForm: FormGroup;
   metadataValue: any[];
@@ -42,12 +42,12 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   lbTKF: SelectItem[];
   lbSUIF: SelectItem[];
   lbTUIF: SelectItem[];
-  selectedSourceFields: string[]=[];
-  selectedTargetFields: string[]=[];
-  selectedSourceKeyFields: string[]=[];
-  selectedTargetKeyFields: string[]=[];
-  selectedSourceUniqueIdFields: string[]=[];
-  selectedTargetUniqueIdFields: string[]=[];
+  selectedSourceFields: string[]= [];
+  selectedTargetFields: string[]= [];
+  selectedSourceKeyFields: string[]= [];
+  selectedTargetKeyFields: string[]= [];
+  selectedSourceUniqueIdFields: string[]= [];
+  selectedTargetUniqueIdFields: string[]= [];
 
   metaCols: any[];
   metaDataTypes: IMetaDatatypeTrend[];
@@ -60,15 +60,15 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   constructor
   (
     private fb: FormBuilder,
-    public toastr: ToastsManager, 
+    public toastr: ToastsManager,
     vcr: ViewContainerRef,
     private route: ActivatedRoute,
     public fieldService: FieldServiceService
-  ) 
-  { 
+  )
+  {
     this.toastr.setRootViewContainerRef(vcr);
     this.route.params.subscribe((params: Params) => {
-      /*Call this function when URL Route Parameter changes*/ 
+      /*Call this function when URL Route Parameter changes*/
       this.emitMethodCallOnRouteParam(params);
     });
 
@@ -80,17 +80,17 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
             minlength: 'Product name must be at least three characters.',
             maxlength: 'Product name cannot exceed 50 characters.'
         },*/
-        lbTargetFields:{
+        lbTargetFields: {
           required: 'Field to Profile is required.'
         },
         lbTargetKeyFields: {
             required: 'Key Field is required.'
         },
-        lbTargetUniqueIdFields:{
+        lbTargetUniqueIdFields: {
           required: 'Unique Identifier Field is required.'
         }
       };
-      // Define an instance of the validator for use with this form, 
+      // Define an instance of the validator for use with this form,
       // passing in this form's set of validation messages.
       this.genericValidator = new GenericValidator(this.validationMessages);
   }
@@ -100,12 +100,12 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
     this.datatypeMetadataForm = this.fb.group({
       sFields: [],
       tfields: [],
-      lbSourceFields:[],
-      lbTargetFields:['', [Validators.required]],
-      lbSourceKeyFields:[],
-      lbTargetKeyFields:['', [Validators.required]],
-      lbSourceUniqueIdFields:[],
-      lbTargetUniqueIdFields:['', [Validators.required]]
+      lbSourceFields: [],
+      lbTargetFields: ['', [Validators.required]],
+      lbSourceKeyFields: [],
+      lbTargetKeyFields: ['', [Validators.required]],
+      lbSourceUniqueIdFields: [],
+      lbTargetUniqueIdFields: ['', [Validators.required]]
     });
     this.sourceFields = [];
     this.targetFields = [];
@@ -113,7 +113,7 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
     this.targetKeyFields = [];
     this.sourceUniqueIdFields = [];
     this.targetUniqueIdFields = [];
-    
+
     //TODO: to be removed
     this.metaCols = [
       {field: 'businessObjectName', header: 'BUSINESS NAME'},
@@ -129,7 +129,7 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Watch for the blur event from any input element on the form.
-    let controlBlurs: Observable<any>[] = this.formInputElements
+    const controlBlurs: Observable<any>[] = this.formInputElements
         .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
 
     // Merge the blur event observable with the valueChanges observable
@@ -140,7 +140,7 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
 
   /* EVENTS */
   myUploader(event) {
-    for (let file of event.files) {
+    for (const file of event.files) {
       this.uploadFileService(file);
     }
   }
@@ -149,58 +149,58 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   /*Call this function when URL Route Parameter changes*/
   emitMethodCallOnRouteParam(params: Params)
   {
-    if(params != null && params.id != null){
+    if (params != null && params.id != null){
       this.businessProfParam = params.id;
-      var businessNameProfileNum = this.businessProfParam.split("~");
-      if(businessNameProfileNum[0] != null && businessNameProfileNum[1] != null){
+      const businessNameProfileNum = this.businessProfParam.split('~');
+      if (businessNameProfileNum[0] != null && businessNameProfileNum[1] != null){
         this.getAllFields(businessNameProfileNum[0], businessNameProfileNum[1]);
       }
-    }    
+    }
   }
 
-  getAllFields(bussinessName:string, profileNum:string) {
+  getAllFields(bussinessName: string, profileNum: string) {
     this.fieldService.getAllFields(bussinessName, profileNum)
       .subscribe( data => {
-        this.fieldsContext = data; 
+        this.fieldsContext = data;
         /** Region: Fields to Profile */
         this.sourceFields = this.fieldsContext.allFields;
         this.targetFields = this.fieldsContext.fieldToProfileList;
 
-        this.lbSF=[];
+        this.lbSF = [];
         this.fieldsContext.allFields.forEach(item => {
           this.lbSF.push({label: item.columnName, value: item.columnName});
-        });  
-        
-        this.lbTF=[];
+        });
+
+        this.lbTF = [];
         this.fieldsContext.fieldToProfileList.forEach(item => {
           this.lbTF.push({label: item.columnName, value: item.columnName});
         });
         /** Region: Key Fields */
         this.sourceKeyFields = this.fieldsContext.allFields;
         this.targetKeyFields = this.fieldsContext.keyFields;
-        
-        this.lbSKF=[];
+
+        this.lbSKF = [];
         this.fieldsContext.allFields.forEach(item => {
           this.lbSKF.push({label: item.columnName, value: item.columnName});
-        });  
-        
-        this.lbTKF=[];
+        });
+
+        this.lbTKF = [];
         this.fieldsContext.keyFields.forEach(item => {
           this.lbTKF.push({label: item.columnName, value: item.columnName});
         });
         /** Region: Unique Identifier */
         this.sourceUniqueIdFields = this.fieldsContext.allFields;
         this.targetUniqueIdFields = this.fieldsContext.uniqueIdentifierFields;
-        this.lbSUIF=[];
+        this.lbSUIF = [];
         this.fieldsContext.allFields.forEach(item => {
           this.lbSUIF.push({label: item.columnName, value: item.columnName});
         });
-        this.lbTUIF=[];
+        this.lbTUIF = [];
         this.fieldsContext.uniqueIdentifierFields.forEach(item => {
           this.lbTUIF.push({label: item.columnName, value: item.columnName});
         });
         /** MetaDatatypeTrend Grid  */
-        this.metaDataTypes=[];
+        this.metaDataTypes = [];
         this.fieldsContext.metaDatatypes.forEach(item => {
           this.metaDataTypes.push(item);
         });
@@ -213,24 +213,24 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   /** Region: Fields to Profile */
   onBtnToRight()
   {
-    if(this.selectedSourceFields.length > 0){
-      let str:string="";
-      for(let item of this.selectedSourceFields){
-        if(str !="")
+    if (this.selectedSourceFields.length > 0){
+      let str = '';
+      for (const item of this.selectedSourceFields){
+        if (str != '')
           str += ', ';
         str += item;
       }
-      this.lbTF.push({label:str, value:str});
+      this.lbTF.push({label: str, value: str});
       //to highlight the selected item on the listbox
-      this.selectedTargetFields = [str];      
+      this.selectedTargetFields = [str];
     }
   }
   /* removing the selected field from the target field */
   onBtnToLeft()
   {
-    if(this.selectedTargetFields.length > 0){
+    if (this.selectedTargetFields.length > 0){
       this.selectedTargetFields.forEach(elm => {
-        var indexArrItem = this.lbTF.filter(element => elm.indexOf(element.label) >= 0);
+        const indexArrItem = this.lbTF.filter(element => elm.indexOf(element.label) >= 0);
         const index: number = this.lbTF.indexOf(indexArrItem[0]);
         if (index !== -1) {
             this.lbTF.splice(index, 1);
@@ -242,23 +242,23 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
    /** Region: Key Fields */
   onKFBtnRight()
   {
-    if(this.selectedSourceKeyFields.length > 0){
-      let str:string="";
-      for(let item of this.selectedSourceKeyFields){
-        if(str !="")
+    if (this.selectedSourceKeyFields.length > 0){
+      let str = '';
+      for (const item of this.selectedSourceKeyFields){
+        if (str != '')
           str += ', ';
         str += item;
       }
-      this.lbTKF.push({label:str, value:str});
+      this.lbTKF.push({label: str, value: str});
       this.selectedTargetKeyFields = [str];
     }
   }
 
   onKFBtnLeft()
   {
-    if(this.selectedTargetKeyFields.length > 0){
+    if (this.selectedTargetKeyFields.length > 0){
       this.selectedTargetKeyFields.forEach(elm => {
-        var indexArrItem = this.lbTKF.filter(element => elm.indexOf(element.label) >= 0);
+        const indexArrItem = this.lbTKF.filter(element => elm.indexOf(element.label) >= 0);
         const index: number = this.lbTKF.indexOf(indexArrItem[0]);
         if (index !== -1) {
             this.lbTKF.splice(index, 1);
@@ -269,23 +269,23 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   /** Region UniqueIdentifier Fields */
   onUniqueIdBtnRight()
   {
-    if(this.selectedSourceUniqueIdFields.length > 0){
-      let str:string="";
-      for(let item of this.selectedSourceUniqueIdFields){
-        if(str !="")
+    if (this.selectedSourceUniqueIdFields.length > 0){
+      let str = '';
+      for (const item of this.selectedSourceUniqueIdFields){
+        if (str != '')
           str += ', ';
         str += item;
       }
-      this.lbTUIF.push({label:str, value:str});
+      this.lbTUIF.push({label: str, value: str});
       this.selectedTargetUniqueIdFields = [str];
     }
   }
 
   onUniqueIdBtnLeft()
   {
-    if(this.selectedTargetUniqueIdFields.length > 0){
+    if (this.selectedTargetUniqueIdFields.length > 0){
       this.selectedTargetUniqueIdFields.forEach(elm => {
-        var indexArrItem = this.lbTUIF.filter(element => elm.indexOf(element.label) >= 0);
+        const indexArrItem = this.lbTUIF.filter(element => elm.indexOf(element.label) >= 0);
         const index: number = this.lbTUIF.indexOf(indexArrItem[0]);
         if (index !== -1) {
             this.lbTUIF.splice(index, 1);
@@ -301,7 +301,7 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
           this.fieldsContext = details;
         },
         (error: any) => this.errorMessage = <any>error,
-      () => this.onComplete()      
+      () => this.onComplete()
     );
   }
 
@@ -314,41 +314,41 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
           this.fieldsContext = details;
         },
         (error: any) => this.errorMessage = <any>error,
-        () => this.onComplete()      
+        () => this.onComplete()
       );
     }
   }
 
   prepareSaveMetadataTypeBooking(): FieldsContext {
-    let formModel = Object.assign({}, this.datatypeMetadataForm, this.datatypeMetadataForm.value);
+    const formModel = Object.assign({}, this.datatypeMetadataForm, this.datatypeMetadataForm.value);
 
-    let fldToProfileList: IFieldContext[] = [];
+    const fldToProfileList: IFieldContext[] = [];
     this.lbTF.forEach(item => {
       fldToProfileList.push({columnName: item.label});
     });
     console.log(fldToProfileList);
 
-    let keyFldList: IFieldContext[] = [];
+    const keyFldList: IFieldContext[] = [];
     this.lbTKF.forEach(item => {
       keyFldList.push({columnName: item.label});
     });
 
-    let uniqueIdList: IFieldContext[] = [];
+    const uniqueIdList: IFieldContext[] = [];
     this.lbTUIF.forEach(item => {
       uniqueIdList.push({columnName: item.label});
     });
 
-    var businessNameProfileNum = this.businessProfParam.split("~");
+    const businessNameProfileNum = this.businessProfParam.split('~');
 
     const saveMetaDataTypeBooking: FieldsContext = {
       fieldContextList: [],
       fieldToProfileList: fldToProfileList,
       allFields: [],
       uniqueIdentifierFields: uniqueIdList,
-      keyFields:keyFldList,
+      keyFields: keyFldList,
       businessName: businessNameProfileNum[0],
       profileNum: businessNameProfileNum[1],
-      message:"",
+      message: '',
       operationSuccess: false,
       metaDatatypes: []
     };
@@ -359,19 +359,19 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
 
   onComplete(): void {
     // Reset the form to clear the flags
-    if(this.fieldsContext.operationSuccess){
-      if(this.fieldsContext.message != null)
+    if (this.fieldsContext.operationSuccess){
+      if (this.fieldsContext.message != null)
         this.toastr.success(this.fieldsContext.message);
         //Refresh the component after save
-        if(this.route.snapshot.params['id'] != null){
+        if (this.route.snapshot.params['id'] != null){
           console.log(this.route.snapshot.params['id']);
-          let params: Params= [{'id': this.route.snapshot.params['id']}];
+          const params: Params = [{'id': this.route.snapshot.params['id']}];
           params.id = this.route.snapshot.params['id'];
           this.emitMethodCallOnRouteParam(params);
-        }        
+        }
     }else{
-      if(this.fieldsContext.message != null)
+      if (this.fieldsContext.message != null)
         this.toastr.error(this.fieldsContext.message);
-    }    
+    }
   }
 }

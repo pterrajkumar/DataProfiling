@@ -18,7 +18,7 @@ export class StandardRuleService {
    }
 
   getAllStandardRules(BusinessObjectName: string, ProfileNum: string): Observable<StandardRulesContext> {
-    return this.http.get(`${this.baseUrl}/StandardRules/GetAllStandardRules`, 
+    return this.http.get(`${this.baseUrl}/StandardRules/GetAllStandardRules`,
     { params: { 'BusinessObjectName': BusinessObjectName, 'ProfileNum': ProfileNum } })
       .map(this.extractContext)
       .catch(this.handleError);
@@ -30,8 +30,8 @@ export class StandardRuleService {
     .catch(this.handleError);
   }
 
-  private extractContext(res:Response) {
-    let body = res.json();
+  private extractContext(res: Response) {
+    const body = res.json();
     console.log(body.context);
     return body.context || {};
   }

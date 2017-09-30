@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EntitiesComponent } from "./entities.component";
-import { DatatypeMetadataComponent } from "../datatype-metadata/datatype-metadata.component";
-import { RulesComponent } from "../rules/rules.component";
+import { EntitiesComponent } from './entities.component';
+import { DatatypeMetadataComponent } from '../datatype-metadata/datatype-metadata.component';
+import { RulesComponent } from '../rules/rules.component';
 import { StandardrulesComponent } from '../standardrules/standardrules.component';
 
 const routes: Routes = [

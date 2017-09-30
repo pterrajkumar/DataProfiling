@@ -11,15 +11,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CustomOption } from './shared/custom-option';
 /* PRIMENG */
-import { FileUploadModule, InputTextModule, DataTableModule, ButtonModule, DialogModule, RadioButtonModule, TooltipModule,PickListModule,DropdownModule,DataListModule, CheckboxModule, ConfirmDialogModule, TabViewModule, ListboxModule } from 'primeng/primeng';
+import { FileUploadModule, InputTextModule, DataTableModule, ButtonModule, DialogModule, RadioButtonModule, TooltipModule, PickListModule, DataListModule, CheckboxModule, ConfirmDialogModule, TabViewModule, ListboxModule } from 'primeng/primeng';
 import { ContentComponent } from './content/content.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { ProfileServiceService } from './service/profile-service.service';
-import { FieldServiceService } from "./service/field-service.service";
-import { RuleServiceService } from "./service/rule-service.service";
-import { FieldToProfileServiceService } from "./service/field-to-profile-service.service";
-import { EntitiesModule } from "./entities/entities.module";
+import { FieldServiceService } from './service/field-service.service';
+import { RuleServiceService } from './service/rule-service.service';
+import { FieldToProfileServiceService } from './service/field-to-profile-service.service';
+import { EntitiesModule } from './entities/entities.module';
 import { Configuration } from './app.constants';
 
 
@@ -29,7 +29,7 @@ import { Configuration } from './app.constants';
     DashboardComponent,
     ContentComponent,
     ProfileComponent,
-    ProfileComponent    
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -39,13 +39,13 @@ import { Configuration } from './app.constants';
     HttpModule,
     AppRoutingModule,
     ToastModule.forRoot(),
-    FileUploadModule, InputTextModule, DataTableModule, ButtonModule, DialogModule, GrowlModule, RadioButtonModule, TooltipModule, PickListModule, DropdownModule, DataListModule, CheckboxModule,
+    FileUploadModule, InputTextModule, DataTableModule, ButtonModule, DialogModule, GrowlModule, RadioButtonModule, TooltipModule, PickListModule, DataListModule, CheckboxModule,
     ConfirmDialogModule, TabViewModule, ListboxModule,
     EntitiesModule
   ],
   providers: [
     { provide: ToastOptions, useClass: CustomOption },
-    ProfileServiceService,RuleServiceService,FieldServiceService,FieldToProfileServiceService, Configuration
+    ProfileServiceService, RuleServiceService, FieldServiceService, FieldToProfileServiceService, Configuration
   ],
   bootstrap: [ AppComponent ]
 })

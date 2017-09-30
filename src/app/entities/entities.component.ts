@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ListboxModule, SelectItem } from "primeng/primeng";
-import { ToastsManager } from "ng2-toastr/ng2-toastr";
-import { ProfileServiceService } from "../service/profile-service.service";
+import { ListboxModule, SelectItem } from 'primeng/primeng';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ProfileServiceService } from '../service/profile-service.service';
 import { FormGroup, FormBuilder, FormControlName, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
-import { ProfileContext } from "../models/profile-context";
+import { ProfileContext } from '../models/profile-context';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EntitiesComponent implements OnInit {
   errorMessage: any;
-  entities: SelectItem[]=[];
+  entities: SelectItem[]= [];
   entityTreeForm: FormGroup;
   profContext: ProfileContext = new  ProfileContext();
   constructor(
@@ -22,28 +22,28 @@ export class EntitiesComponent implements OnInit {
     public profileService: ProfileServiceService,
     private route: ActivatedRoute,
     private router: Router,
-  ) 
-  {    
+  )
+  {
   }
 
   ngOnInit() {
-    this.entityTreeForm=this.fb.group({
-      entity:String
-    });    
+    this.entityTreeForm = this.fb.group({
+      entity: String
+    });
     this.callAllProfileDetailsService();
   }
 
   callAllProfileDetailsService() {
-    this.profileService.getAllProfileDetails()    
+    this.profileService.getAllProfileDetails()
     .subscribe(
       details => {
         this.profContext = details;
         console.log(details.list);
-        if(details != null && details.list.length > 0)
+        if (details != null && details.list.length > 0)
         details.list.forEach(item => {
           this.entities.push({
-            label: item.businessObjectName+"_"+(item.profileNum - 1), 
-            value: item.businessObjectName+"~"+(item.profileNum - 1)
+            label: item.businessObjectName + '_' + (item.profileNum - 1),
+            value: item.businessObjectName + '~' + (item.profileNum - 1)
           });
         });
       },
@@ -52,31 +52,31 @@ export class EntitiesComponent implements OnInit {
   }
 
   onSelected(event){
-    if(sessionStorage.getItem('tabRouter') != null)
+    if (sessionStorage.getItem('tabRouter') != null)
     {
-      let routername:string = "";
-      switch(sessionStorage.getItem('tabRouter'))
+      let routername = '';
+      switch (sessionStorage.getItem('tabRouter'))
       {
-        case "datatypemetadata":
+        case 'datatypemetadata':
           routername = sessionStorage.getItem('tabRouter');
           this.router.navigate(['/entities/datatypemetadata', event.value]);
         break;
-        case "standardrule":
+        case 'standardrule':
           routername = sessionStorage.getItem('tabRouter');
           this.router.navigate(['/entities/standardrule', event.value]);
         break;
-        case "rules":
+        case 'rules':
           routername = sessionStorage.getItem('tabRouter');
           this.router.navigate(['/entities/rules', event.value]);
         break;
-      }        
+      }
     }
 
   }
 
   /* On tab click, this method will set the name of the tab */
-  onTabRouterClick(tab:string){
-    this.entityTreeForm.reset();    
+  onTabRouterClick(tab: string){
+    this.entityTreeForm.reset();
     sessionStorage.setItem('tabRouter', tab);
   }
 }

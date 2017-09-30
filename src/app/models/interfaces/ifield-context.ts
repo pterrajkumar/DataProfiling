@@ -1,4 +1,4 @@
 
 export interface IFieldContext {
-    columnName:string
+    columnName: string;
 }
