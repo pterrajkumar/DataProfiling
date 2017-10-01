@@ -214,15 +214,19 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   onBtnToRight()
   {
     if (this.selectedSourceFields.length > 0){
-      let str = '';
+      /* let str = '';
       for (const item of this.selectedSourceFields){
         if (str != '')
           str += ', ';
         str += item;
       }
-      this.lbTF.push({label: str, value: str});
+      this.lbTF.push({label: str, value: str}); */
+      this.selectedSourceFields.forEach( item => {
+        this.lbTF.push({label: item, value: item});
+        this.selectedTargetFields = [item];
+      });
       //to highlight the selected item on the listbox
-      this.selectedTargetFields = [str];
+      //this.selectedTargetFields = [str];
     }
   }
   /* removing the selected field from the target field */

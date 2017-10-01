@@ -21,7 +21,7 @@ import { RuleServiceService } from './service/rule-service.service';
 import { FieldToProfileServiceService } from './service/field-to-profile-service.service';
 import { EntitiesModule } from './entities/entities.module';
 import { Configuration } from './app.constants';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import { Configuration } from './app.constants';
   ],
   providers: [
     { provide: ToastOptions, useClass: CustomOption },
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     ProfileServiceService, RuleServiceService, FieldServiceService, FieldToProfileServiceService, Configuration
   ],
   bootstrap: [ AppComponent ]
