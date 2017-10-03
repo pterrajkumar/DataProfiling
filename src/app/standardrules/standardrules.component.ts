@@ -111,7 +111,7 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
   onBSRBtnRight()
   {
     if (this.selectedSourceSRules.length > 0){
-      let str = '';
+      /* let str = '';
       for (const item of this.selectedSourceSRules){
         if (str != '')
           str += ', ';
@@ -119,7 +119,12 @@ export class StandardrulesComponent implements OnInit, AfterViewInit {
       }
       this.lbTSRR.push({label: str, value: str});
       //to highlight the selected item on the listbox
-      this.selectedTargetSRules = [str];
+      this.selectedTargetSRules = [str]; */
+      this.selectedSourceSRules.forEach( item => {
+        this.lbTSRR.push({label: item, value: item});
+        this.selectedTargetSRules = [item]; 
+      });
+
     }
   }
   /* removing the selected field from the target field */

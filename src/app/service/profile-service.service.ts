@@ -68,6 +68,12 @@ export class ProfileServiceService {
     .catch(this.handleError);
   }
 
+  generateProfile(profileContext: ProfileContext): Observable<ProfileContext>{
+    return this.http.post(`${this.baseUrl}/ImportFiles/GenerateProfile`, profileContext)
+    .map(this.extractDataDetails)
+    .catch(this.handleError);
+  }
+
   private extractDataDetails(res: Response) {
     const body = res.json();
     console.log(body.context);

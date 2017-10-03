@@ -5,6 +5,7 @@ import { ProfileServiceService } from '../service/profile-service.service';
 import { FormGroup, FormBuilder, FormControlName, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
 import { ProfileContext } from '../models/profile-context';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IProfileControlMasterContext } from '../models/iprofile-control-master-context';
 
 @Component({
   selector: 'app-entities',
@@ -15,6 +16,7 @@ export class EntitiesComponent implements OnInit {
   errorMessage: any;
   entities: SelectItem[]= [];
   entityTreeForm: FormGroup;
+  eventBusinessProfileNum: string;
   profContext: ProfileContext = new  ProfileContext();
   constructor(
     private fb: FormBuilder,
@@ -55,6 +57,7 @@ export class EntitiesComponent implements OnInit {
     if (sessionStorage.getItem('tabRouter') != null)
     {
       let routername = '';
+      this.eventBusinessProfileNum = event.value;
       switch (sessionStorage.getItem('tabRouter'))
       {
         case 'datatypemetadata':
@@ -78,5 +81,41 @@ export class EntitiesComponent implements OnInit {
   onTabRouterClick(tab: string){
     this.entityTreeForm.reset();
     sessionStorage.setItem('tabRouter', tab);
+  }
+
+  btnGenericProfile(){
+    console.log(this.eventBusinessProfileNum);
+
+    let businessProfile:string[] = this.eventBusinessProfileNum.split('~');
+    let selectedBusinessName = businessProfile[0];
+    let selectedProfileNum = businessProfile[1];
+    const prepContext: IProfileControlMasterContext = {
+      businessObjectName: selectedBusinessName,
+      profileNum: Number(selectedProfileNum)
+    };
+    const prepContextArr: IProfileControlMasterContext[] = [];
+    prepContextArr.push(prepContext);
+    const profileContext = new ProfileContext();
+    profileContext.miniProfileControlMasterDO = prepContextArr;
+    
+    this.profileService.generateProfile(profileContext)
+    .subscribe(
+      details => {
+        this.profContext = details;
+      },
+      (error: any) => this.errorMessage = <any>error,
+      () => this.onComplete()
+    );
+  }
+
+  onComplete(): void {
+    // Reset the form to clear the flags
+    if (this.profContext.operationSuccess){
+      if (this.profContext.message != null)
+        this.toastr.success(this.profContext.message);
+    }else{
+      if (this.profContext.message != null)
+        this.toastr.error(this.profContext.message);
+    }
   }
 }

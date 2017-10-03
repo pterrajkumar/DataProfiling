@@ -45,7 +45,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   ],
   providers: [
     { provide: ToastOptions, useClass: CustomOption },
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     ProfileServiceService, RuleServiceService, FieldServiceService, FieldToProfileServiceService, Configuration
   ],
   bootstrap: [ AppComponent ]

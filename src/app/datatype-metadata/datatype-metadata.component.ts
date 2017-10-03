@@ -274,14 +274,19 @@ export class DatatypeMetadataComponent implements OnInit, AfterViewInit {
   onUniqueIdBtnRight()
   {
     if (this.selectedSourceUniqueIdFields.length > 0){
-      let str = '';
+      /* let str = '';
       for (const item of this.selectedSourceUniqueIdFields){
         if (str != '')
           str += ', ';
         str += item;
       }
       this.lbTUIF.push({label: str, value: str});
-      this.selectedTargetUniqueIdFields = [str];
+      this.selectedTargetUniqueIdFields = [str]; */
+      this.selectedSourceUniqueIdFields.forEach( item => {
+        this.lbTUIF.push({label: item, value: item});
+        this.selectedTargetUniqueIdFields = [item]; 
+      });
+
     }
   }
 
